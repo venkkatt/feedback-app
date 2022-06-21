@@ -3,30 +3,26 @@ import {
   FeedBackForm, FeedBackStats, FeedbackList,
   useState,
   FeedbackData,
-  uuidv4,
   About, Header, Post, PostNav, AboutIconLink
-} from './imports'
+} from './imports';
+import { FeedbackProvider } from './context/FeedbackContext'
 
 
 function App() {
 
-  const [feedback, setFeedback] = useState(FeedbackData);
+  // const [feedback, setFeedback] = useState(FeedbackData);
 
-  const deleteFeedback = (id) => {
+  // const deleteFeedback = (id) => {
 
-    if (window.confirm('Are you sure you want to delete?')) {
-      setFeedback(feedback.filter((item) => item.id !== id))
-    }
+  //   if (window.confirm('Are you sure you want to delete?')) {
+  //     setFeedback(feedback.filter((item) => item.id !== id))
+  //   }
 
-  }
+  // }
 
-  const addFeedback = (newFeedback) => {
-    newFeedback.id = uuidv4()
-    setFeedback([newFeedback, ...feedback])
-  }
 
   return (
-    <>
+    <FeedbackProvider>
       <BrowserRouter>
         <Header />
 
@@ -34,14 +30,12 @@ function App() {
           <Routes>
             <Route exact path="/" element={
               <>
-                <FeedBackForm handleAdd={addFeedback} />
-                <FeedBackStats feedback={feedback} />
-                <FeedbackList feedback={feedback} handleDelete={deleteFeedback} />
+                <FeedBackForm />
+                <FeedBackStats />
+                <FeedbackList />
               </>
             }>
-
             </Route>
-
             <Route path="/about" element={<About />} />
             <Route path="/post/:id/:name" element={<Post />} />
             <Route path="/postnav/*" element={<PostNav />} />
@@ -51,7 +45,7 @@ function App() {
           <AboutIconLink />
         </div>
       </BrowserRouter>
-    </>
+    </FeedbackProvider>
   );
 }
 
